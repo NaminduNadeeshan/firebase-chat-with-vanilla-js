@@ -4,13 +4,13 @@ This a simple example for firebase chat application with Vanilla js.  It's reuab
 
 To use this component to your application just replace below code snipts with your firebase configuration than my configurations.
 
-var config = {
-    apiKey: "AIzaSyAXyjLUMEyPjXF7I9dp-i6LxcTVnqzdNoo",
+```var config = {
+    apiKey: "Your Api key",
     authDomain: "jschat-4a13d.firebaseapp.com",
-    databaseURL: "https://jschat-4a13d.firebaseio.com",
+    databaseURL: "Your_Url",
     projectId: "jschat-4a13d",
     storageBucket: "jschat-4a13d.appspot.com",
     messagingSenderId: "429500704914"
-  };
+  };```
   
   
