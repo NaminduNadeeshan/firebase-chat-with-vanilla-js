@@ -7,6 +7,7 @@
     projectId: "ID",
     storageBucket: "ABC",
     messagingSenderId: "##$#"
+
   };
   firebase.initializeApp(config);
 /* end of fitrbase configurations */
