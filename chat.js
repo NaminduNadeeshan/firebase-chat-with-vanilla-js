@@ -136,12 +136,6 @@ realTimeDb.on('value', snap => {
                                     console.log(resMessage);
                                     this.resMessage(resMessage.message);
                                    }
-<<<<<<< HEAD
-=======
-
-                                   
-
->>>>>>> parent of 80c37cc... Revert "initial commit"
                                 });
                             }
 
