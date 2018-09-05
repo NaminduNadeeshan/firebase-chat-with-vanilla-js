@@ -22,7 +22,7 @@ var chatNode = ''
 
     document.addEventListener('DOMContentLoaded', function () {
         document.getElementById("dbddc626-e5e0-4928-a066-f3f012437eeb").innerHTML = `
-    
+
             <div class="wrapper">
                 <div class="a686596e-5a40-4dcb-b3a1-4123e6e00acf">
                     <div class="a910c343-4a0a-46ce-9628-e53c1820e829">
@@ -39,7 +39,7 @@ var chatNode = ''
                        </div>
                        </div>
                      </div>
-    
+
                 </div>
             </div>`;
     });
@@ -49,7 +49,7 @@ var chatNode = ''
   }else{
     document.addEventListener('DOMContentLoaded', function () {
         document.getElementById("dbddc626-e5e0-4928-a066-f3f012437eeb").innerHTML = `
-    
+
             <div class="wrapper">
                 <div class="a686596e-5a40-4dcb-b3a1-4123e6e00acf">
                     <div class="a910c343-4a0a-46ce-9628-e53c1820e829">
@@ -67,7 +67,7 @@ var chatNode = ''
                         <button onclick="setChatContent()">start chat</button>
                        </div>
                      </div>
-    
+
                 </div>
             </div>`;
     });
@@ -77,7 +77,7 @@ var chatNode = ''
 function setChatContent() {
     this.chatNode = document.getElementById("subscribeId").value;
     this.username = document.getElementById("name").value;
- 
+
 
     this.setCookie(this.username, this.chatNode);
 
@@ -90,8 +90,8 @@ function setChatContent() {
 }
 
 function sendMessage(){
-  
-    var messageText = document.getElementById('message').value
+
+    var messageText = document.getElementById('messageText').value
 
     var messageId = firebase.database().ref('chatNode/'+ this.chatNode).push({}).key;
     firebase.database().ref(`chatNode/${this.chatNode}/${messageId}`).set({
@@ -107,11 +107,24 @@ function resMessage(resMessage){
     let element = document.querySelector(`#${resMessage.messageId}`);
     if ((!element)) {
         var sendContent = document.createElement("div");
-        sendContent.setAttribute("class","msg-receive");
+        sendContent.setAttribute("class","message");
         sendContent.setAttribute("id",`${resMessage.messageId}`);
-        var msgeContent = document.createTextNode(resMessage.message);
-        sendContent.appendChild(msgeContent);
-        document.getElementById("send").appendChild(sendContent);
+
+        sendContent.innerHTML = `
+        <div class="message" id=" ${resMessage.messageId}">
+         <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg" />
+            <div class="bubble">
+             ${resMessage.message}
+                <div class="corner"></div>
+                <span>3 min</span>
+            </div>
+        </div>`
+
+              // var msgeContent = document.createTextNode(resMessage.message);
+        // sendContent.appendChild(msgeContent);
+        var elem = document.getElementById('chat-messages');
+        elem.appendChild(sendContent);
+         elem.scrollTop = elem.scrollHeight;
     }
 }
 
@@ -121,11 +134,21 @@ function setSendMessage(sendMessage) {
 
             if ((!element) || (element.id != sendMessage.messageId)) {
                 var sendContent = document.createElement("div");
-                sendContent.setAttribute("class","msg-send");
+                sendContent.setAttribute("class","message right");
                 sendContent.setAttribute("id",`${sendMessage.messageId}`);
-                var msgeContent = document.createTextNode(sendMessage.message);
-                sendContent.appendChild(msgeContent);
-                document.getElementById("send").appendChild(sendContent);
+                sendContent.innerHTML = `
+                 <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg" />
+                    <div class="bubble">
+                     ${sendMessage.message}
+                        <div class="corner"></div>
+                        <span>3 min</span>
+                    </div>`
+                console.log(sendMessage.message)
+                // var msgeContent = document.createTextNode(sendMessage.message);
+                // sendContent.appendChild(msgeContent);
+                var elem = document.getElementById('chat-messages');
+                elem.appendChild(sendContent);
+                 elem.scrollTop = elem.scrollHeight;
             }
 }
 
@@ -144,7 +167,7 @@ realTimeDb.on('value', snap => {
            } else {
                 this.setSendMessage(chatNodeM[key]);
            }
-       
+
     }
     // this.resMessage(resMessageList);
     // this.setSendMessage(sendMessageList);
@@ -156,7 +179,7 @@ realTimeDb.on('value', snap => {
 /* coockie functions */
 //create coockie
 function setCookie(username,chatNode) {
-     
+
     localStorage.setItem('user',JSON.stringify({
         username: username,
         chatNode: chatNode,
@@ -177,6 +200,41 @@ function isCoockieExisting(){
     } else {
        return false;
     }
-    
+
 }
 /*end of the cookie functions */
+
+// chat bubble functions
+
+window.onload = function(){
+  var element = document.getElementById('floatingChat');
+  var close = document.getElementById('close')
+var chatIcon =  document.getElementById('chatIcon');
+var chatBox =  document.getElementById('chatview');
+  console.log(element,chatIcon);
+
+  setTimeout(function() {
+      element.classList.add('enter');
+  }, 1000);
+
+  element.addEventListener("click", openElement);
+  close.addEventListener("click", closeElement);
+
+  function openElement() {
+    console.log('open');
+    element.classList.add('expand');
+    chatIcon.style.display = 'none';
+    chatBox.classList.add('enter');
+    element.removeEventListener("click", openElement);
+  }
+
+  function closeElement() {
+  console.log('close');
+        element.classList.remove('expand');
+        chatIcon.style.display = 'block';
+        chatBox.classList.remove('enter');
+        setTimeout(function() {
+            element.addEventListener("click", openElement);
+        }, 200);
+  }
+};
